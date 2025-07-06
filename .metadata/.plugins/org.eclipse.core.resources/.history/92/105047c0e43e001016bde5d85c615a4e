@@ -1,0 +1,54 @@
+package com.productManagemetcrudoperation.crudoperation.contoller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import com.productManagemetcrudoperation.crudoperation.entity.Products;
+import com.productManagemetcrudoperation.crudoperation.repository.ProductRepository;
+
+import jakarta.servlet.http.HttpSession;
+
+@Controller
+public class HomeController 
+{
+
+	@Autowired
+	private  ProductRepository productrepo;
+	
+	
+	@GetMapping("/")
+	  public String home()
+	  {
+		return "index";
+		  
+	  }
+	
+	@GetMapping("/load_form")
+	  public String loadform()
+	  {
+		return "add";
+		  
+	  }
+	
+	@GetMapping("/edit_form")
+	  public String editform()
+	  {
+		return "edit";
+		  
+	  }
+	
+	@PostMapping(path={"/save_products"})
+	  public String saveproducte(@ModelAttribute Products product,HttpSession session)
+	  {
+		productrepo.save(product);
+		session.setAttribute("msg", "product added succesfully");
+		
+		
+		return "redirect:/load_form";
+		  
+	  }
+	
+}
